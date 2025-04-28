@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: NutritionTrackerBackend
+
+  datasource:
+    url: jdbc:postgresql://localhost:5436/foodentry
+    driver-class-name: org.postgresql.Driver
+    username: foodentry_dev
+    password: foodentry_dev
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  port: 8080
