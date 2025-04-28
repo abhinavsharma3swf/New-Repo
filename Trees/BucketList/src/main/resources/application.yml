@@ -1,0 +1,20 @@
+#spring.application.name=BucketList
+
+spring:
+  application:
+    name: BucketList
+
+  datasource:
+    url: jdbc:postgresql://localhost:5438/bucketlist
+    driver-class-name: org.postgresql.Driver
+    username: bucket
+    password: doggyhorse
+  flyway:
+    enabled: true
+    locations: classpath:db.migration
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+server:
+    port: 8080
