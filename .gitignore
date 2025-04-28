@@ -1,2 +1,5 @@
+.env
+.gradle
+/build
 .DS_Store
 /Node_modules
