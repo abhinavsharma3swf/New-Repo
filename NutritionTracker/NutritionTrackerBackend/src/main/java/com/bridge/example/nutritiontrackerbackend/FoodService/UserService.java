@@ -4,6 +4,8 @@ import com.bridge.example.nutritiontrackerbackend.Entity.UserEntity;
 import com.bridge.example.nutritiontrackerbackend.Repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -21,5 +23,9 @@ public class UserService {
     public UserEntity getUserById(Long id){
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public List<UserEntity> getUsers() {
+        return userRepository.findAll();
     }
 }

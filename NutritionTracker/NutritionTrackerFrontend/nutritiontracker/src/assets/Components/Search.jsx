@@ -1,16 +1,15 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {Foodcard} from "./Foodcard.jsx";
+import {navigate} from "jsdom/lib/jsdom/living/window/navigation.js";
 
 function Search() {
-    const [searchItem, setSearchItem] = useState()
-    const [selectedFood, setSelectedFood] = useState('')
-    const [quantity, setQuantity] = useState(1)
+    const [searchItem, setSearchItem] = useState("")
+    const [selectedFood, setSelectedFood] = useState([])
 
-    useEffect(() => {
-        if (!searchItem) return;
-        // console.log(searchItem)
-
+const handleSearch = () => {
+        if( !searchItem)
+            return;
 
         const options = {
             'method': 'POST',
@@ -35,7 +34,7 @@ function Search() {
             .catch(error => {
                 console.log('Error: It is not working', error.message)
             })
-    }, [searchItem]);
+    }
 
     const search = (event) => {
         // const setItem = {[event.target.name]: event.target.value};
@@ -46,15 +45,25 @@ function Search() {
     }
 
     return(
-        <div className="food-search">
-            <label className="name">Input food</label>
-            <input type="text" className="name" onClick={search}/>
+        <div>
+            <div className="food-search">
+                <label className="name">Input food</label>
 
-            {/*//Checking if the search item exist//*/}
+                <input
+                    type="text"
+                    className="name"
+                    value={searchItem}
+                    onChange={search}>
+                </input>
 
-            {/*Another way to write this will be selectedFood?.map then the same line*/}
-            {selectedFood && selectedFood.map((food, index) => (
-                <Foodcard key={index} data={food}/>))}
+                <button className="name" onClick={handleSearch}>Search</button>
+
+                {/*//Checking if the search item exist//*/}
+
+                {/*Another way to write this will be selectedFood?.map then the same line*/}
+                {selectedFood && selectedFood.map((food, index) => (
+                    <Foodcard key={index} data={food}/>))}
+            </div>
         </div>
     )
 }

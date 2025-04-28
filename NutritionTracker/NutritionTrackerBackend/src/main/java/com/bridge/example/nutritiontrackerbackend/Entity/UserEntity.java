@@ -17,7 +17,7 @@ public class UserEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
-    private List<FoodEntry> foodEntries = new ArrayList<>();
+    private List<FoodEntry> foodEntries;
 
     public UserEntity() {
 

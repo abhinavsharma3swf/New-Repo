@@ -1,7 +1,8 @@
 import {Button, FormControlLabel, Radio, RadioGroup, TextField} from "@mui/material";
-import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {BrowserRouter, Link, Route, Routes, useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
 import axios from "axios";
+import {Bmicalculation} from "./Bmicalculation.jsx";
 
 
 const Register = () => {
@@ -11,6 +12,8 @@ const Register = () => {
         gender: ""
     });
 
+    const [userList,  setUserList] = useState([])
+
     const navigate = useNavigate();
 
     const handleInput = (event) => {
@@ -19,6 +22,18 @@ const Register = () => {
             [event.target.name]: event.target.value
         }));
     };
+
+    useEffect(() => {
+
+        axios.get(`http://localhost:8080/api/users`)
+            .then(response => {
+                console.log(response.data)
+                setUserList(response.data)
+            })
+            .catch(error=> {
+                console.log("server not found", error)
+            })
+    }, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -30,8 +45,8 @@ const Register = () => {
         })
             .then(response => {
                 console.log('User saved:', response.data);
-                const userId = response.data.id;
-                navigate('/search', { state: { userId } });
+                // const userId = response.data.id;
+                navigate('/search');
             })
             .catch(error => {
                 console.error('Error saving user:', error.message);
@@ -58,7 +73,7 @@ const Register = () => {
                 </RadioGroup>
 
                 <Button type="submit" variant="contained" color="success">
-                    Click Here To Start
+                    {userList.some((el)=>(el.username.toString().toLowerCase() === userDetail["username"].toLowerCase())) ? "Login" : "Click Here To Start"}
                 </Button>
             </form>
         </section>
