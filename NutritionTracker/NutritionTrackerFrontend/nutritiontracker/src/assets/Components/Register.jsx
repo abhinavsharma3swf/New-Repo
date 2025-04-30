@@ -19,6 +19,7 @@ const Register = () => {
 
     const navigate = useNavigate();
 
+
     const handleInput = (event) => {
         setUserDetail((prevState) => ({
             ...prevState,

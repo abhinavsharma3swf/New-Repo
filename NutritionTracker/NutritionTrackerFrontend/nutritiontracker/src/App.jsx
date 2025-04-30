@@ -24,7 +24,7 @@ function App() {
                 <UserContext.Provider value={{userId, setUserId}}>
                 <Routes>
                     <Route path="/" element={<Register/>}/>
-                    <Route path="/bmicalculation" element={<Bmicalculation/>}/>
+                    <Route path="/bmicalculator" element={<Bmicalculation/>}/>
                     <Route path="*" element={<Notfound/>}/>
                     <Route path="/search" element={<Search/>}/>
                     <Route path="/foodservice" element={<FoodService/>}/>

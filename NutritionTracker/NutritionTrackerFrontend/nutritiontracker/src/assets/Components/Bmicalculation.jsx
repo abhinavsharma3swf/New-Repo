@@ -3,6 +3,8 @@ import underweight from '../Ui/underweight.png'
 import healthyweight from '../Ui/healthyweight.png'
 import overweight from '../Ui/overweight.png'
 import bmipic from '../Ui/bmipic.png'
+import {Button} from "@mui/material";
+import {Link} from "react-router-dom";
 
 export const Bmicalculation = () => {
 
@@ -58,6 +60,7 @@ export const Bmicalculation = () => {
     }
     return(
         <div className='bmicalc'>
+
             <div className='container1'>
                 <h1 className='center'> BMI Calculator </h1>
                 <form onSubmit={calcBmi}>
@@ -82,7 +85,7 @@ export const Bmicalculation = () => {
                         <img style={{}} src={imgSrc} alt=""/>
                     </div>
                 </div>
-
+                <Link to={"/"} style={{ textDecoration: 'none', color: 'Green' }}> Home</Link>
 
         </div>
         </div>

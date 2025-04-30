@@ -2,6 +2,7 @@ import {useState} from "react";
 import axios from "axios";
 import {Foodcard} from "./Foodcard.jsx";
 import {Link} from "react-router-dom";
+import {Button} from "@mui/material";
 
 function Search() {
     const [searchItem, setSearchItem] = useState("")
@@ -52,16 +53,21 @@ const handleSearch = () => {
     return(
         <div>
             <div className="food-search">
-                <label className="name">Input food</label>
+                <Link to={"/"} style={{ textDecoration: 'none', color: 'Green', textAlign: 'left' }}> Home</Link>
+
+                {/*<label className="name" style={{color: 'Green'}}>Input food</label>*/}
 
                 <input
                     type="text"
+                    placeholder='Input food to search'
                     className="name"
                     value={searchItem}
                     onChange={search}>
                 </input>
 
-                <button className="name" onClick={handleSearch}>Search</button>
+                <Link style={{ textDecoration: 'none', color: 'Green' }} className="name" onClick={handleSearch}>
+                    Search
+                </Link>
 
                 {loading ? ( <p> Loading food data</p>) : (selectedFood && selectedFood.map((food, index) => (
                     <Foodcard key={index} data={food}/>)))}
@@ -70,7 +76,11 @@ const handleSearch = () => {
 
                 {/*Another way to write this will be selectedFood?.map then the same line*/}
 
-                <Link to="/foodservice">View Logged Foods</Link>
+                <br/>
+                <Link
+                    to={'/foodservice'} style={{ textDecoration: 'none', color: 'Green' }}>Daily Log</Link>
+                <br/>
+                <Link to={"/bmicalculator"} style={{ textDecoration: 'none', color: 'Green' }}>Calculate your BMI</Link>
             </div>
         </div>
     )

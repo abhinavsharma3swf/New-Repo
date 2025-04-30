@@ -12,6 +12,8 @@ export const Foodcard = ({data}) => {
 
     let {nf_calories, nf_protein, nf_total_carbohydrate, nf_total_fat, food_name, photo} = data;
 
+    const [save, setSave] = useState(false);
+
 
     const image = photo?.highres || photo?.thumb || "https://via.placeholder.com/300"; // fallback if image missing
 
@@ -35,6 +37,7 @@ export const Foodcard = ({data}) => {
             })
                 .then(response => {
                     console.log('Food entry saved:', response.data);
+                    setSave(true)
                     // const userId = response.data.id;
                 })
                 .catch(error => {
@@ -47,7 +50,7 @@ export const Foodcard = ({data}) => {
 
         <div>
             <form onSubmit={handleSubmit}>
-        <Card sx={{ maxWidth: 300, marginTop: 11 }}>
+        <Card sx={{ maxWidth: 300, marginTop: 2, marginLeft: 60}}>
             <CardMedia
                 component="img"
                 image={image}
@@ -72,12 +75,15 @@ export const Foodcard = ({data}) => {
                 <label>Enter the quantity</label>
             </div>
             <input
-                type="number" min="0"
+                type="number" min="1"
                 value={quantity}
                 onChange={(event) => setQuantity(event.target.value)}>
             </input>
-
+                <div>
                 <button> Click to Log</button>
+                    {save && <p> Food Saved Successfully</p>}
+                </div>
+
             </form>
         </div>
     );

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {useContext, useEffect, useState} from "react";
 import {UserContext} from "./App.jsx";
-import {Box, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography} from "@mui/material";
+import {Box, Button, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography} from "@mui/material";
 
 
 export const FoodService = () => {
@@ -33,16 +33,27 @@ export const FoodService = () => {
         }
     }, [selectedDate, userId]);
 
-
-    const BasicDatePicker = ()=> {
-        return (
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DatePicker']}>
-                    <DatePicker label="Basic date picker" />
-                </DemoContainer>
-            </LocalizationProvider>
-        );
+    const deleteFoodEntry = (e) => {
+        console.log("Hello")
+        axios.delete(`http://localhost:8080/api/foodentry/${e.target.dataset.id}`)
+            .then(response =>{
+                (response.data)
+            })
+            .catch(error => {
+                console.log("Error in delete", error.message)
+            })
     }
+
+    const editFoodQuantity = (e) => {
+        axios.put(`http://localhost:8080/api/foodentry/${e.target.dataset.id}`)
+            .then(response => {
+                (response.data)
+                })
+            .catch(error => {
+                console.log("Error in editing", error.message)
+            })
+    }
+
     return (
         <div>
             <Box sx={{ p: 3 }}>
@@ -50,12 +61,11 @@ export const FoodService = () => {
 
                 <TextField
                     type="date"
-                    label="Date"
                     value={selectedDate}
                     onChange={(e) => setSelectedDate(e.target.value)}
                     sx={{ mb: 2 }}
                 />
-                <Table sx={{ mb: 3 }}>
+                <Table sx={{ mb: 2 }}>
                     <TableHead>
                         <TableRow>
                             <TableCell>Food Name</TableCell>
@@ -75,6 +85,13 @@ export const FoodService = () => {
                             <TableCell align="right">{entry.macrosEntity.protein}</TableCell>
                             <TableCell align="right">{entry.macrosEntity.carbs}</TableCell>
                             <TableCell align="right">{entry.macrosEntity.fat}</TableCell>
+                            <TableCell>
+                            <Button data-id={entry.id}
+                                    onClick={deleteFoodEntry}>Delete</Button>
+                            <Button data-id={entry.id}
+                                    onClick={editFoodQuantity}>
+                                Edit</Button>
+                            </TableCell>
                         </TableRow>
                             ))}
                     </TableBody>
