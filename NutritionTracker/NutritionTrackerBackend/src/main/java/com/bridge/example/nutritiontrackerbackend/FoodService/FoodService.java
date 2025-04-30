@@ -32,6 +32,10 @@ public class FoodService {
     public List<FoodEntry> fetchFoodEntry() {
         return foodRepository.findAll();
     }
+
+    public List<FoodEntry> getFoodEntriesByUserAndDate(Long userId, String date) {
+        return foodRepository.findByUserIdAndDate(userId, date);
+    }
 }
 
 
