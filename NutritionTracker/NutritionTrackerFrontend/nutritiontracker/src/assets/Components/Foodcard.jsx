@@ -1,10 +1,14 @@
 import {Card, CardContent, CardMedia, Checkbox, Typography} from "@mui/material";
-import {use, useState} from "react";
+import {useContext, useState} from "react";
 import axios from "axios";
+import {UserContext} from "../../App.jsx";
 
 export const Foodcard = ({data}) => {
 
     const [quantity, setQuantity] = useState(1);
+    const {userId, setUserId} = useContext(UserContext)
+
+    console.log(userId)
 
     let {nf_calories, nf_protein, nf_total_carbohydrate, nf_total_fat, food_name, photo} = data;
 
@@ -16,10 +20,18 @@ export const Foodcard = ({data}) => {
         const handleSubmit = (event) => {
             event.preventDefault();
 
-            axios.post('http://localhost:8080/api/foodentry/${userId}', {
+            axios.post(`http://localhost:8080/api/foodentry/${userId}`, {
                 name: food_name,
                 date: new Date().toISOString().split('T')[0],
-                quantity: quantity,
+                qty: quantity,
+                macrosEntity:
+                    {
+                        calories: nf_calories,
+                        protein: nf_protein,
+                        carbs: nf_total_carbohydrate,
+                        fat: nf_total_fat
+                    }
+
             })
                 .then(response => {
                     console.log('Food entry saved:', response.data);
@@ -51,7 +63,8 @@ export const Foodcard = ({data}) => {
             </CardContent>
 
             <Checkbox defaultChecked color="success" />
-            <Checkbox defaultChecked primarycolor="caution" />
+            <Checkbox defaultChecked
+                      primary="#ffeb3b" />
             <Checkbox defaultChecked color="error" />
         </Card>
 

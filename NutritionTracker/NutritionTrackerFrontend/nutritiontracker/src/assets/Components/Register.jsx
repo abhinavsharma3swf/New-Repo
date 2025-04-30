@@ -1,8 +1,10 @@
 import {Button, FormControlLabel, Radio, RadioGroup, TextField} from "@mui/material";
 import {BrowserRouter, Link, Route, Routes, useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {Bmicalculation} from "./Bmicalculation.jsx";
+import {UserContext} from "../../App.jsx";
+
 
 
 const Register = () => {
@@ -13,6 +15,7 @@ const Register = () => {
     });
 
     const [userList,  setUserList] = useState([])
+    const {userId, setUserId} = useContext(UserContext)
 
     const navigate = useNavigate();
 
@@ -27,7 +30,6 @@ const Register = () => {
 
         axios.get(`http://localhost:8080/api/users`)
             .then(response => {
-                console.log(response.data)
                 setUserList(response.data)
             })
             .catch(error=> {
@@ -38,19 +40,29 @@ const Register = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        axios.post('http://localhost:8080/api/users', {
-            username: userDetail.username,
-            age: userDetail.age,
-            registrationDate: new Date().toISOString().split('T')[0]
-        })
-            .then(response => {
-                console.log('User saved:', response.data);
-                // const userId = response.data.id;
-                navigate('/search');
+        const userExist = userList.find(
+            (el) => el.username.toLowerCase() === userDetail.username.toLowerCase()
+        )
+        if (userExist) {
+            console.log("User already exist")
+            setUserId(userExist.id)
+            navigate('/search')
+        } else {
+
+            axios.post('http://localhost:8080/api/users', {
+                username: userDetail.username,
+                age: userDetail.age,
+                registrationDate: new Date().toISOString().split('T')[0]
             })
-            .catch(error => {
-                console.error('Error saving user:', error.message);
-            });
+                .then(response => {
+                    console.log('User saved:', response.data);
+                    setUserId(response.data.id)
+                    navigate('/search');
+                })
+                .catch(error => {
+                    console.error('Error saving user:', error.message);
+                });
+        }
     };
 
     return (
