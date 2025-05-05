@@ -7,6 +7,9 @@ import {Box, Button, Table, TableBody, TableCell, TableHead, TableRow, TextField
 export const FoodService = () => {
     const {userId} = useContext(UserContext)
     const [foods, setFoods] = useState([])
+
+    //Using the use-effect to change the state instead of refreshing the page for delete and edit.
+    const [refreshState, setRefreshState] = useState(false);
     //The line below provides the date and split it in half we are using the index zero that means only the date first half
     // const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[-1]);
 
@@ -31,13 +34,14 @@ export const FoodService = () => {
         if(userId){
             fetchFoodEntries();
         }
-    }, [selectedDate, userId]);
+    }, [selectedDate, userId, refreshState]);
 
     const deleteFoodEntry = (e) => {
-        console.log("Hello")
+        // console.log("Hello")
         axios.delete(`http://localhost:8080/api/foodentry/${e.target.dataset.id}`)
             .then(response =>{
                 (response.data)
+                setRefreshState(prevState => !prevState);
             })
             .catch(error => {
                 console.log("Error in delete", error.message)
@@ -45,9 +49,10 @@ export const FoodService = () => {
     }
 
     const editFoodQuantity = (e) => {
-        axios.put(`http://localhost:8080/api/foodentry/${e.target.dataset.id}`)
+        axios.patch(`http://localhost:8080/api/foodentry/${e.target.dataset.id}`)
             .then(response => {
                 (response.data)
+                setRefreshState(prevState => !prevState);
                 })
             .catch(error => {
                 console.log("Error in editing", error.message)
@@ -80,7 +85,17 @@ export const FoodService = () => {
                     {foods.map((entry, index) => (
                         <TableRow key={index}>
                             <TableCell>{entry.name}</TableCell>
-                            <TableCell align="right">{entry.qty}</TableCell>
+                            <TableCell align="right">
+                                <TextField
+                                    type='number'
+                                    defaultValue={entry.qty}
+                                    onChange={(e) => {
+                                        const updatedFood = [...foods];
+                                        updatedFood[index].qty = e.target.value;
+                                        setFoods(updatedFood);
+                                    }}
+                                    size='small'/>
+                            </TableCell>
                             <TableCell align="right">{entry.macrosEntity.calories}</TableCell>
                             <TableCell align="right">{entry.macrosEntity.protein}</TableCell>
                             <TableCell align="right">{entry.macrosEntity.carbs}</TableCell>
