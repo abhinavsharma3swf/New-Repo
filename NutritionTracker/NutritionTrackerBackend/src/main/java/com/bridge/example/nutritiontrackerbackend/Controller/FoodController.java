@@ -2,12 +2,12 @@ package com.bridge.example.nutritiontrackerbackend.Controller;
 
 import com.bridge.example.nutritiontrackerbackend.Entity.FoodEntry;
 import com.bridge.example.nutritiontrackerbackend.FoodService.FoodService;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/foodentry")
@@ -17,6 +17,7 @@ import java.util.List;
 public class FoodController {
 
     private final FoodService foodService;
+
 
     public FoodController(FoodService foodService) {
         this.foodService = foodService;
@@ -43,4 +44,17 @@ public class FoodController {
         List<FoodEntry> entries = foodService.getFoodEntriesByUserAndDate(userId, date);
         return new ResponseEntity<>(entries, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{foodId}")
+    public ResponseEntity<Void> deleteByFoodId(@PathVariable Long foodId){
+        foodService.deleteByFoodId(foodId);
+        return ResponseEntity.noContent().build();
+        }
+
+        @PatchMapping("/{foodId}")
+    public ResponseEntity<FoodEntry> updateQuantity (@PathVariable Long foodId, @RequestBody Map<String, Double> requestBody){
+        double newQuantity = requestBody.get("qty");
+        FoodEntry updatedEntry = foodService.updateQuantity(foodId, newQuantity);
+        return new ResponseEntity<>(updatedEntry, HttpStatus.OK);
+        }
 }

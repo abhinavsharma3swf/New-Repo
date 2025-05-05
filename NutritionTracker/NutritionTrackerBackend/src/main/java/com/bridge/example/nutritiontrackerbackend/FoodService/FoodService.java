@@ -1,5 +1,4 @@
 package com.bridge.example.nutritiontrackerbackend.FoodService;
-
 import com.bridge.example.nutritiontrackerbackend.Entity.FoodEntry;
 import com.bridge.example.nutritiontrackerbackend.Entity.UserEntity;
 import com.bridge.example.nutritiontrackerbackend.Repository.FoodRepository;
@@ -35,6 +34,17 @@ public class FoodService {
 
     public List<FoodEntry> getFoodEntriesByUserAndDate(Long userId, String date) {
         return foodRepository.findByUserIdAndDate(userId, date);
+    }
+
+    public void deleteByFoodId(Long foodId){
+        foodRepository.deleteById(foodId);
+    }
+
+    public FoodEntry updateQuantity(Long foodId, double newQuantity) {
+        FoodEntry entry = foodRepository.findById(foodId)
+                .orElseThrow(() -> new RuntimeException("Food entry not found"));
+        entry.setQty(newQuantity);
+        return foodRepository.save(entry);
     }
 }
 
