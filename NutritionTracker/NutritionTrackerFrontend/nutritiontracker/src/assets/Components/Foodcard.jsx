@@ -1,4 +1,4 @@
-import {Card, CardContent, CardMedia, Checkbox, Typography} from "@mui/material";
+import {Card, CardContent, CardMedia, Checkbox, FormControlLabel, Radio, RadioGroup, Typography} from "@mui/material";
 import {useContext, useState} from "react";
 import axios from "axios";
 import {UserContext} from "../../App.jsx";
@@ -65,10 +65,19 @@ export const Foodcard = ({data}) => {
                 <Typography variant="body2">Carbohydrate {nf_total_carbohydrate.toFixed() *quantity}</Typography>
             </CardContent>
 
-            <Checkbox defaultChecked color="success" />
-            <Checkbox defaultChecked
-                      primary="#ffeb3b" />
-            <Checkbox defaultChecked color="error" />
+            <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+            >
+                <FormControlLabel style={{color: 'green'}} value="Green" control={<Radio />} label="Green" />
+                <FormControlLabel style={{color: 'gold'}} value="Yellow" control={<Radio />} label="Yellow" />
+                <FormControlLabel style={{color: "red"}} value="Red" control={<Radio />} label="Red" />
+            </RadioGroup>
+
+            {/*<Radio defaultChecked color="success" control={<Radio />} label="Green" name='green'/>*/}
+            {/*<Radio style={{color: 'gold'}} control={<Radio />} label="Yellow" name='green'/>*/}
+            {/*<Radio defaultUnChecked color="error" control={<Radio />} label="Red" name='green' />*/}
         </Card>
 
             <div className='qty'>
