@@ -78,13 +78,10 @@ const Register = () => {
                            name="age"
                            label="Enter Your Age"
                            type="number" onChange={handleInput} />
-
                 <RadioGroup name="gender" onChange={handleInput}>
                     <FormControlLabel value="female" control={<Radio />} label="Female" />
                     <FormControlLabel value="male" control={<Radio />} label="Male" />
-                    <FormControlLabel value="other" control={<Radio />} label="Other" />
                 </RadioGroup>
-
                 <Button type="submit" variant="contained" color="success">
                     {userList.some((el)=>(el.username.toString().toLowerCase() === userDetail["username"].toLowerCase())) ? "Login" : "Click Here To Start"}
                 </Button>
@@ -92,5 +89,4 @@ const Register = () => {
         </section>
     );
 };
-
 export default Register;

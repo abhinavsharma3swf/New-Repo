@@ -85,7 +85,7 @@ export const Bmicalculation = () => {
                         <img style={{}} src={imgSrc} alt=""/>
                     </div>
                 </div>
-                <Link to={"/"} style={{ textDecoration: 'none', color: 'Green' }}> Home</Link>
+                <Link to={"/"} style={{ textDecoration: 'none', color: 'Green', fontSize: '30px' }}> Home</Link>
 
         </div>
         </div>

@@ -7,6 +7,7 @@ export const Foodcard = ({data}) => {
 
     const [quantity, setQuantity] = useState(1);
     const {userId, setUserId} = useContext(UserContext)
+    const [selectedColor, setSelectedColor] = useState('Green')
 
     console.log(userId)
 
@@ -69,6 +70,7 @@ export const Foodcard = ({data}) => {
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
+                onChange={(e) => setSelectedColor(e.target.value)}
             >
                 <FormControlLabel style={{color: 'green'}} value="Green" control={<Radio />} label="Green" />
                 <FormControlLabel style={{color: 'gold'}} value="Yellow" control={<Radio />} label="Yellow" />
@@ -81,7 +83,12 @@ export const Foodcard = ({data}) => {
         </Card>
 
             <div className='qty'>
-                <label>Enter the quantity</label>
+                <label style={{color:
+                        selectedColor === 'Green'
+                    ? 'green'
+                    :selectedColor === 'Yellow'
+                    ? 'gold'
+                    : 'red'}}>Enter the quantity</label>
             </div>
             <input
                 type="number" min="1"

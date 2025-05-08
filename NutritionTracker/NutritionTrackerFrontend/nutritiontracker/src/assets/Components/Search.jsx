@@ -2,12 +2,15 @@ import {useState} from "react";
 import axios from "axios";
 import {Foodcard} from "./Foodcard.jsx";
 import {Link} from "react-router-dom";
-import {Button} from "@mui/material";
 
 function Search() {
     const [searchItem, setSearchItem] = useState("")
     const [selectedFood, setSelectedFood] = useState([])
     const [loading, setLoading] = useState(false)
+
+    const id = import.meta.env.VITE_API_ID;
+    const key = import.meta.env.VITE_API_KEY;
+
 
 const handleSearch = () => {
         if( !searchItem)
@@ -20,8 +23,8 @@ const handleSearch = () => {
             'url': 'https://trackapi.nutritionix.com/v2/natural/nutrients',
             'headers': {
                 'Content-Type': 'application/json',
-                'x-app-id': '3ed3d07f',
-                'x-app-key': '43a405525bd03722860f5da9953a419a'
+                'x-app-id': id,
+                'x-app-key': key
             },
             data: JSON.stringify({
                 "query": searchItem
@@ -51,16 +54,22 @@ const handleSearch = () => {
     }
 
     return(
-        <div>
+        <div className="search-page">
             <div className="food-search">
-                <Link to={"/"} style={{ textDecoration: 'none', color: 'Green', textAlign: 'left' }}> Home</Link>
-
-                {/*<label className="name" style={{color: 'Green'}}>Input food</label>*/}
-
+                <div className='home'>
+                <Link to={"/"} style={{ textDecoration: 'none', color: 'Green'}}> Home</Link>
+                </div>
+                <div className='foodservice'>
+                <Link
+                    to={'/foodservice'} style={{ textDecoration: 'none', color: 'Green', textAlign:"center" }}>Daily Log</Link>
+                </div>
+                <div className='bmi'>
+                    <Link to={"/bmicalculator"} style={{ textDecoration: 'none', color: 'Green' }}>BMI Calculator</Link>
+                </div>
                 <input
                     type="text"
                     placeholder='Input food to search'
-                    className="name"
+                    className="search"
                     value={searchItem}
                     onChange={search}>
                 </input>
@@ -75,12 +84,6 @@ const handleSearch = () => {
                 {/*//Checking if the search item exist//*/}
 
                 {/*Another way to write this will be selectedFood?.map then the same line*/}
-
-                <br/>
-                <Link
-                    to={'/foodservice'} style={{ textDecoration: 'none', color: 'Green' }}>Daily Log</Link>
-                <br/>
-                <Link to={"/bmicalculator"} style={{ textDecoration: 'none', color: 'Green' }}>Calculate your BMI</Link>
             </div>
         </div>
     )
