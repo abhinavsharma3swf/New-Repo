@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "./App.jsx";
+import { UserContext } from "../../App.jsx";
 import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import {Link} from "react-router-dom";
 
 export const FoodService = () => {
     const { userId } = useContext(UserContext);
@@ -121,6 +122,17 @@ export const FoodService = () => {
                     </TableRow>
                 </TableBody>
             </Table>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100px' }}>
+                <Link
+                    to="/"
+                    style={{
+                        textDecoration: 'none',
+                        color: 'green',
+                        fontSize: '20px'
+                    }}
+                >Home
+                </Link>
+            </div>
         </Box>
     );
 };

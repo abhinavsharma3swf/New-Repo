@@ -96,8 +96,8 @@ export const Foodcard = ({data}) => {
                 onChange={(event) => setQuantity(event.target.value)}>
             </input>
                 <div>
-                <button> Click to Log</button>
-                    {save && <p> Food Saved Successfully</p>}
+                <button className='foodbtn'> Click to Log</button>
+                    {save && <p style={{fontsize: '20px'}}> Food Saved Successfully</p>}
                 </div>
 
             </form>

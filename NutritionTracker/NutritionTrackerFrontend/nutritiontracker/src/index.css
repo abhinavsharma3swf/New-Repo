@@ -17,7 +17,7 @@
 .search-page {
   background-color: rgba(102, 141, 75, 0.39);
   border-radius: 10px;
-  height: 700px;
+  height: 780px;
   text-align: justify-all;
 }
 
@@ -105,6 +105,19 @@ input {
   cursor: pointer;
   background-color: black;
   color: white;
+}
+
+.foodbtn{
+  display: inline-flex;
+  width: 25%;
+  font-size: 1rem;
+  margin: 2px;
+  padding: 10px;
+  border-radius: 10px ;
+  cursor: pointer;
+  background-color: #76952d;
+  color: white;
+  place-content: center;
 }
 
 .img-container {

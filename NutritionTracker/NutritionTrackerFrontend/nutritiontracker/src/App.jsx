@@ -5,7 +5,7 @@ import {Bmicalculation} from "./assets/Components/Bmicalculation.jsx";
 import Notfound from "./assets/Components/Notfound.jsx";
 import Search from "./assets/Components/Search.jsx";
 import {createContext, useState} from "react";
-import {FoodService} from "./FoodService.jsx";
+import {FoodService} from "./assets/Components/FoodService.jsx";
 import {ThemeProvider} from "@mui/material/styles";
 import {theme} from "./assets/Theme.jsx";
 
