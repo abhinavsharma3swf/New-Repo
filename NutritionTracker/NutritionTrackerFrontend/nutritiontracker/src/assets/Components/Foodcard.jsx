@@ -27,6 +27,7 @@ export const Foodcard = ({data}) => {
                 name: food_name,
                 date: new Date().toISOString().split('T')[0],
                 qty: quantity,
+                color: selectedColor,
                 macrosEntity:
                     {
                         calories: nf_calories,

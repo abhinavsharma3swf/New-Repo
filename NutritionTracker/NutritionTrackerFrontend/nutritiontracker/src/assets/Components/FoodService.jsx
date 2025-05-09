@@ -75,6 +75,7 @@ export const FoodService = () => {
                 <TableHead>
                     <TableRow>
                         <TableCell>Food Name</TableCell>
+                        <TableCell>Color</TableCell>
                         <TableCell align="right">Quantity</TableCell>
                         <TableCell align="right">Calories</TableCell>
                         <TableCell align="right">Protein (g)</TableCell>
@@ -88,8 +89,19 @@ export const FoodService = () => {
                         const updatedQty = editQty.find(e => e.id === entry.id)?.qty ?? entry.qty;
 
                         return (
+
                             <TableRow key={entry.id}>
                                 <TableCell>{entry.name}</TableCell>
+                                <TableCell style={{
+                                    background:
+                                        entry.color === "Green"
+                                ? 'green'
+                                : entry.color === "Yellow"
+                                ? 'yellow'
+                                : 'red',
+                                color: 'black',
+                                }}>
+                                    {entry.color}</TableCell>
                                 <TableCell align="right">
                                     <TextField
                                         type="number"
