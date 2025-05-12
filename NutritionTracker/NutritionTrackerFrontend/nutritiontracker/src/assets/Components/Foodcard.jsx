@@ -24,7 +24,7 @@ export const Foodcard = ({data}) => {
             event.preventDefault();
 
             axios.post(`http://localhost:8080/api/foodentry/${userId}`, {
-                name: food_name,
+                name: food_name.charAt(0).toUpperCase() + food_name.slice(1).toLowerCase(),   //Creates the first letter in Caps
                 date: new Date().toISOString().split('T')[0],
                 qty: quantity,
                 color: selectedColor,
@@ -98,7 +98,12 @@ export const Foodcard = ({data}) => {
             </input>
                 <div>
                 <button className='foodbtn'> Click to Log</button>
-                    {save && <p style={{fontsize: '20px'}}> Food Saved Successfully</p>}
+                    {save && (
+                        <Typography variant="body2" style={{ color: "green", marginTop: "8px" }}>
+                            Food Saved Successfully!
+                        </Typography>
+                    )}
+
                 </div>
 
             </form>

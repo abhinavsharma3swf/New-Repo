@@ -8,6 +8,7 @@ export const FoodService = () => {
     const { userId } = useContext(UserContext);
     const [foods, setFoods] = useState([]);
     const [editQty, setEditQty] = useState([]);
+    const [isInputFocused, setIsInputFocused] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
 
     const fetchFoodEntries = () => {
@@ -40,6 +41,7 @@ export const FoodService = () => {
             qty: updated.qty })
             .then(() => fetchFoodEntries())
             .catch(error => console.error("Update error:", error.message));
+        setIsInputFocused(null);
     };
 
     const handleQtyChange = (id, value) => {
@@ -74,22 +76,20 @@ export const FoodService = () => {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Food Name</TableCell>
-                        <TableCell>Color</TableCell>
-                        <TableCell align="right">Quantity</TableCell>
-                        <TableCell align="right">Calories</TableCell>
-                        <TableCell align="right">Protein (g)</TableCell>
-                        <TableCell align="right">Carbs (g)</TableCell>
-                        <TableCell align="right">Fat (g)</TableCell>
-                        <TableCell>Actions</TableCell>
+                        <TableCell><strong>Food Name</strong></TableCell>
+                        <TableCell><strong>Color</strong></TableCell>
+                        <TableCell align="center"><strong>Quantity</strong></TableCell>
+                        <TableCell align="right"><strong>Calories</strong></TableCell>
+                        <TableCell align="right"><strong>Protein (g)</strong></TableCell>
+                        <TableCell align="right"><strong>Carbs (g)</strong></TableCell>
+                        <TableCell align="right"><strong>Fat (g)</strong></TableCell>
+                        <TableCell align="center"><strong>Actions</strong></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {foods.map((entry) => {
                         const updatedQty = editQty.find(e => e.id === entry.id)?.qty ?? entry.qty;
-
                         return (
-
                             <TableRow key={entry.id}>
                                 <TableCell>{entry.name}</TableCell>
                                 <TableCell style={{
@@ -108,17 +108,26 @@ export const FoodService = () => {
                                         value={updatedQty}
                                         onChange={(e) => handleQtyChange(entry.id, e.target.value)}
                                         size="small"
+                                        // onFocus={()=> setIsInputFocused(entry.id)}
+                                        // onBlur={()=> setIsInputFocused(null)}
+                                        disabled={isInputFocused !== entry.id}
                                     />
                                 </TableCell>
                                 <TableCell align="right">{(entry.macrosEntity.calories * updatedQty).toFixed()}</TableCell>
                                 <TableCell align="right">{(entry.macrosEntity.protein * updatedQty).toFixed()}</TableCell>
                                 <TableCell align="right">{(entry.macrosEntity.carbs * updatedQty).toFixed()}</TableCell>
                                 <TableCell align="right">{(entry.macrosEntity.fat * updatedQty).toFixed()}</TableCell>
+
                                 <TableCell>
-                                    <Button data-id={entry.id} onClick={deleteFoodEntry}>Delete</Button>
+                                    {/*Edit button*/}
+                                    <Button onClick={() => setIsInputFocused(entry.id)} disabled={isInputFocused === entry.id}>Edit</Button>
+                                    {/*Update Button*/}
                                     <Button data-id={entry.id}
                                             onClick={editFoodQuantity}
-                                            disabled={updatedQty <=0 || isNaN(updatedQty)}>Update</Button>
+                                            disabled={updatedQty <=0 || isNaN(updatedQty || isInputFocused !== entry.id)}>Update</Button>
+                                    {/*delete Button*/}
+                                    <Button data-id={entry.id} onClick={deleteFoodEntry}>Delete</Button>
+
                                 </TableCell>
                             </TableRow>
                         );
