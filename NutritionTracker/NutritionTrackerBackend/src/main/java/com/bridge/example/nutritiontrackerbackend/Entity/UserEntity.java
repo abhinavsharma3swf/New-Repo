@@ -1,8 +1,5 @@
 package com.bridge.example.nutritiontrackerbackend.Entity;
-
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,6 +11,9 @@ public class UserEntity {
     private Long id;
     private String username;
     private int age;
+
+    private int goalCalories;
+
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
@@ -47,9 +47,17 @@ public class UserEntity {
         this.id = id;
     }
 
-    public UserEntity(Long id, String userName, int age) {
-        this.id = id;
-        this.username = userName;
+    public int getGoalCalories() {
+        return goalCalories;
+    }
+
+    public void setGoalCalories(int goalCalories) {
+        this.goalCalories = goalCalories;
+    }
+
+    public UserEntity(String username, int age, int goalCalories) {
+        this.username = username;
         this.age = age;
+        this.goalCalories = goalCalories;
     }
 }

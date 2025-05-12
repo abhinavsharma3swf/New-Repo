@@ -33,18 +33,15 @@ public class FoodServiceTest {
         testFoodEntry = new FoodEntry();
         testFoodEntry.setId(1L);
         testFoodEntry.setQty(1);
-//        testFoodEntry.setCalories(100);
-//        testFoodEntry.setCarbs(30);
-//        testFoodEntry.setFat(25);
-//        testFoodEntry.setProtein(20);
         testFoodEntry.setName("Oatmeal");
         testFoodEntry.setDate("12-Mar-25");
+        testFoodEntry.setColor("red");
     }
 
    @Test
     void shouldSaveNewFoodItem () {
        when(foodRepository.save(testFoodEntry)).thenReturn(testFoodEntry);
-       FoodEntry actualRequest = foodService.createFoodEntry(testFoodEntry);
+       FoodEntry actualRequest = foodService.createFoodEntry(1L, testFoodEntry);
        verify(foodRepository, times(1)).save(any(FoodEntry.class));
        assertThat(actualRequest).isEqualTo(testFoodEntry);
    }
@@ -53,8 +50,8 @@ public class FoodServiceTest {
    void shouldReturnFoodEntriesByDate() {
         String date = "12-Mar-25";
         List<FoodEntry> mockEnteries = List.of(
-                new FoodEntry(1L, "Oatmeal", date, 2D),
-                new FoodEntry(2L, "Cookies", date, 1D));
+                new FoodEntry(1L, "Oatmeal", date, 2D, "red"),
+                new FoodEntry(2L, "Cookies", date, 1D, "red"));
         when(foodRepository.findAllByDate(date)).thenReturn(mockEnteries);
    }
 }

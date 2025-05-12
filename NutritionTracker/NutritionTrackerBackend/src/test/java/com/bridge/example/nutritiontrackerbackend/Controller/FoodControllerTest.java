@@ -27,7 +27,7 @@ public class FoodControllerTest {
 
     @Test
     void shouldCreateFoodEntry() throws Exception {
-        FoodEntry foodEntry = new FoodEntry(1L, "Oatmeal", "12-Mar-25", 2D);
+        FoodEntry foodEntry = new FoodEntry(1L, "Oatmeal", "12-Mar-25", 2D, "red");
         String foodEntryJSON = objectMapper.writeValueAsString(foodEntry);
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/foodentry")

@@ -12,6 +12,8 @@ public class FoodEntry {
     private String date;
     private double qty;
 
+    private String color;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "macrosentity_id")
     private MacrosEntity macrosEntity;
@@ -24,11 +26,12 @@ public FoodEntry() {
 
     }
 
-    public FoodEntry(Long id, String name, String date, double qty) {
+    public FoodEntry(Long id, String name, String date, double qty, String color) {
         this.id = id;
         this.name = name;
         this.date = date;
         this.qty = qty;
+        this.color = color;
     }
 
     public MacrosEntity getMacrosEntity() {
@@ -53,8 +56,19 @@ public FoodEntry() {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", date='" + date + '\'' +
-                ", qty='" + qty + '\'' +
+                ", qty=" + qty +
+                ", color='" + color + '\'' +
+                ", macrosEntity=" + macrosEntity +
+                ", user=" + user +
                 '}';
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public Long getId() {
