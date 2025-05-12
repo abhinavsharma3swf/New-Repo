@@ -8,11 +8,13 @@ const Register = () => {
     const [userDetail, setUserDetail] = useState({
         username: "",
         age: "",
-        gender: ""
+        gender: "",
+        goalCalories: ""
     });
 
     const [userList,  setUserList] = useState([])
-    const {userId, setUserId} = useContext(UserContext)
+    const {userId, setUserId, setUserGoal} = useContext(UserContext)
+
 
     const navigate = useNavigate();
 
@@ -44,17 +46,20 @@ const Register = () => {
         if (userExist) {
             console.log("User already exist")
             setUserId(userExist.id)
+            setUserGoal(userExist.goalCalories)
             navigate('/search')
         } else {
 
             axios.post('http://localhost:8080/api/users', {
                 username: userDetail.username,
                 age: userDetail.age,
-                registrationDate: new Date().toISOString().split('T')[0]
+                registrationDate: new Date().toISOString().split('T')[0],
+                goalCalories: userDetail.goalCalories
             })
                 .then(response => {
                     console.log('User saved:', response.data);
                     setUserId(response.data.id)
+                    setUserGoal(response.data.goalCalories)
                     navigate('/search');
                 })
                 .catch(error => {
@@ -76,6 +81,10 @@ const Register = () => {
                            label="Enter Your Age"
                            inputProps={{min:0, max: 99}}
                            type="number" onChange={handleInput} />
+                <TextField
+                           name="goalCalories"
+                           label="Enter your goal calories"
+                           onChange={handleInput} />
                 <RadioGroup name="gender" onChange={handleInput}>
                     <FormControlLabel value="female" control={<Radio/>} label="Female" />
                     <FormControlLabel value="male" control={<Radio/>} label="Male" />

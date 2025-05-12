@@ -5,7 +5,7 @@ import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, TextFiel
 import {Link} from "react-router-dom";
 
 export const FoodService = () => {
-    const { userId } = useContext(UserContext);
+    const { userId, userGoal } = useContext(UserContext);
     const [foods, setFoods] = useState([]);
     const [editQty, setEditQty] = useState([]);
     const [isInputFocused, setIsInputFocused] = useState(null);
@@ -63,8 +63,16 @@ export const FoodService = () => {
 
 
     return (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 3 }} style={{backgroundColor: "lightcyan", borderRadius: "30px"}}>
             <Typography variant="h4" gutterBottom>Your Food Log</Typography>
+
+            <TextField
+                label="Goal Calories"
+                type="number"
+                value={userGoal}
+                // onChange={(e) => setGoalCalories(+e.target.value)}
+                sx={{ mb: 1, ml: 1 }}
+            />
 
             <TextField
                 type="date"
@@ -78,11 +86,11 @@ export const FoodService = () => {
                     <TableRow>
                         <TableCell><strong>Food Name</strong></TableCell>
                         <TableCell><strong>Color</strong></TableCell>
-                        <TableCell align="center"><strong>Quantity</strong></TableCell>
-                        <TableCell align="right"><strong>Calories</strong></TableCell>
-                        <TableCell align="right"><strong>Protein (g)</strong></TableCell>
-                        <TableCell align="right"><strong>Carbs (g)</strong></TableCell>
-                        <TableCell align="right"><strong>Fat (g)</strong></TableCell>
+                        <TableCell sx={{width:100}} align="center"><strong>Quantity</strong></TableCell>
+                        <TableCell align="center"><strong>Calories</strong></TableCell>
+                        <TableCell align="center"><strong>Protein (g)</strong></TableCell>
+                        <TableCell align="center"><strong>Carbs (g)</strong></TableCell>
+                        <TableCell align="center"><strong>Fat (g)</strong></TableCell>
                         <TableCell align="center"><strong>Actions</strong></TableCell>
                     </TableRow>
                 </TableHead>
@@ -102,7 +110,6 @@ export const FoodService = () => {
                                 color: 'black',
                                 }}>
                                     {entry.color}</TableCell>
-                                <TableCell align="right">
                                     <TableCell align="right">
                                         {isInputFocused === entry.id ? (
                                             <TextField
@@ -112,7 +119,7 @@ export const FoodService = () => {
                                                 size="small"
                                             />
                                         ) : (
-                                            <Typography>{entry.qty}</Typography>
+                                            <Typography align='center'>{entry.qty}</Typography>
                                         )}
                                     </TableCell>
 
@@ -125,13 +132,12 @@ export const FoodService = () => {
                                     {/*    // onBlur={()=> setIsInputFocused(null)}*/}
                                     {/*    disabled={isInputFocused !== entry.id}*/}
                                     {/*/>*/}
-                                </TableCell>
-                                <TableCell align="right">{(entry.macrosEntity.calories * updatedQty).toFixed()}</TableCell>
-                                <TableCell align="right">{(entry.macrosEntity.protein * updatedQty).toFixed()}</TableCell>
-                                <TableCell align="right">{(entry.macrosEntity.carbs * updatedQty).toFixed()}</TableCell>
-                                <TableCell align="right">{(entry.macrosEntity.fat * updatedQty).toFixed()}</TableCell>
+                                <TableCell align="center">{(entry.macrosEntity.calories * updatedQty).toFixed()}</TableCell>
+                                <TableCell align="center">{(entry.macrosEntity.protein * updatedQty).toFixed()}</TableCell>
+                                <TableCell align="center">{(entry.macrosEntity.carbs * updatedQty).toFixed()}</TableCell>
+                                <TableCell align="center">{(entry.macrosEntity.fat * updatedQty).toFixed()}</TableCell>
 
-                                <TableCell>
+                                <TableCell align="center" sx={{padding:0}}>
                                     {/*Edit button*/}
                                     <Button onClick={() => setIsInputFocused(entry.id)} disabled={isInputFocused === entry.id}>Edit</Button>
                                     {/*Update Button*/}
@@ -140,19 +146,19 @@ export const FoodService = () => {
                                             disabled={updatedQty <=0 || isNaN(updatedQty || isInputFocused !== entry.id)}>Update</Button>
                                     {/*delete Button*/}
                                     <Button data-id={entry.id} onClick={deleteFoodEntry}>Delete</Button>
-
                                 </TableCell>
                             </TableRow>
                         );
                     })}
                     <TableRow>
                         <TableCell><strong>Totals</strong></TableCell>
-                        <TableCell />
-                        <TableCell align="right"><strong>{totals.calories.toFixed()}</strong></TableCell>
-                        <TableCell align="right"><strong>{totals.protein.toFixed()}</strong></TableCell>
-                        <TableCell align="right"><strong>{totals.carbs.toFixed()}</strong></TableCell>
-                        <TableCell align="right"><strong>{totals.fat.toFixed()}</strong></TableCell>
-                        <TableCell />
+                        <TableCell><strong>Overview</strong></TableCell>
+                        <TableCell/>
+                        <TableCell align="center"><strong>{totals.calories.toFixed()}</strong></TableCell>
+                        <TableCell align="center"><strong>{totals.protein.toFixed()}</strong></TableCell>
+                        <TableCell align="center"><strong>{totals.carbs.toFixed()}</strong></TableCell>
+                        <TableCell align="center"><strong>{totals.fat.toFixed()}</strong></TableCell>
+                        <TableCell align="center"><strong>Calories Remaining = {userGoal - totals.calories}</strong></TableCell>
                     </TableRow>
                 </TableBody>
             </Table>

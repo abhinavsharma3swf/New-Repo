@@ -13,6 +13,7 @@ export const UserContext = createContext();
 function App() {
 
     const [userId, setUserId]= useState(null);
+    const [userGoal, setUserGoal]= useState(2000);
 
 
 
@@ -21,7 +22,7 @@ function App() {
         <>
             <ThemeProvider theme={theme}>
             <BrowserRouter>
-                <UserContext.Provider value={{userId, setUserId}}>
+                <UserContext.Provider value={{userId, setUserId, userGoal, setUserGoal}}>
                 <Routes>
                     <Route path="/" element={<Register/>}/>
                     <Route path="/bmicalculator" element={<Bmicalculation/>}/>
