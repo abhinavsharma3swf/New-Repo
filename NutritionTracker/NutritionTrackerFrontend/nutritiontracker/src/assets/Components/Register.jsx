@@ -1,8 +1,8 @@
 import {Button, FormControlLabel, Radio, RadioGroup, TextField} from "@mui/material";
-import {BrowserRouter, Link, Route, Routes, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
-import {Bmicalculation} from "./Bmicalculation.jsx";
+
 import {UserContext} from "../../App.jsx";
 
 
@@ -77,10 +77,11 @@ const Register = () => {
                 <TextField required
                            name="age"
                            label="Enter Your Age"
+                           inputProps={{min:0, max: 99}}
                            type="number" onChange={handleInput} />
                 <RadioGroup name="gender" onChange={handleInput}>
-                    <FormControlLabel value="female" control={<Radio />} label="Female" />
-                    <FormControlLabel value="male" control={<Radio />} label="Male" />
+                    <FormControlLabel value="female" control={<Radio/>} label="Female" />
+                    <FormControlLabel value="male" control={<Radio/>} label="Male" />
                 </RadioGroup>
                 <Button type="submit" variant="contained" color="success">
                     {userList.some((el)=>(el.username.toString().toLowerCase() === userDetail["username"].toLowerCase())) ? "Login" : "Click Here To Start"}

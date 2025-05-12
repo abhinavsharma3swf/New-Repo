@@ -73,11 +73,9 @@ const handleSearch = () => {
                     value={searchItem}
                     onChange={search}>
                 </input>
-
-                <Link style={{ textDecoration: 'none', color: 'Green' }} className="name" onClick={handleSearch}>
+                <Link to={{ textDecoration: 'none', color: 'Green' }} className="name" onClick={handleSearch}>
                     Search
                 </Link>
-
                 {loading ? ( <p> Loading food data</p>) : (selectedFood && selectedFood.map((food, index) => (
                     <Foodcard key={index} data={food}/>)))}
 

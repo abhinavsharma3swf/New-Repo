@@ -103,15 +103,28 @@ export const FoodService = () => {
                                 }}>
                                     {entry.color}</TableCell>
                                 <TableCell align="right">
-                                    <TextField
-                                        type="number"
-                                        value={updatedQty}
-                                        onChange={(e) => handleQtyChange(entry.id, e.target.value)}
-                                        size="small"
-                                        // onFocus={()=> setIsInputFocused(entry.id)}
-                                        // onBlur={()=> setIsInputFocused(null)}
-                                        disabled={isInputFocused !== entry.id}
-                                    />
+                                    <TableCell align="right">
+                                        {isInputFocused === entry.id ? (
+                                            <TextField
+                                                type="number"
+                                                value={updatedQty}
+                                                onChange={(e) => handleQtyChange(entry.id, e.target.value)}
+                                                size="small"
+                                            />
+                                        ) : (
+                                            <Typography>{entry.qty}</Typography>
+                                        )}
+                                    </TableCell>
+
+                                    {/*<TextField*/}
+                                    {/*    type="number"*/}
+                                    {/*    value={updatedQty}*/}
+                                    {/*    onChange={(e) => handleQtyChange(entry.id, e.target.value)}*/}
+                                    {/*    size="small"*/}
+                                    {/*    // onFocus={()=> setIsInputFocused(entry.id)}*/}
+                                    {/*    // onBlur={()=> setIsInputFocused(null)}*/}
+                                    {/*    disabled={isInputFocused !== entry.id}*/}
+                                    {/*/>*/}
                                 </TableCell>
                                 <TableCell align="right">{(entry.macrosEntity.calories * updatedQty).toFixed()}</TableCell>
                                 <TableCell align="right">{(entry.macrosEntity.protein * updatedQty).toFixed()}</TableCell>
