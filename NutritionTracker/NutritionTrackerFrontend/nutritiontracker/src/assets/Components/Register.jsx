@@ -2,10 +2,7 @@ import {Button, FormControlLabel, Radio, RadioGroup, TextField} from "@mui/mater
 import {useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
-
 import {UserContext} from "../../App.jsx";
-
-
 
 const Register = () => {
     const [userDetail, setUserDetail] = useState({
@@ -84,7 +81,7 @@ const Register = () => {
                     <FormControlLabel value="male" control={<Radio/>} label="Male" />
                 </RadioGroup>
                 <Button type="submit" variant="contained" color="success">
-                    {userList.some((el)=>(el.username.toString().toLowerCase() === userDetail["username"].toLowerCase())) ? "Login" : "Click Here To Start"}
+                    {userList.find((el)=>(el.username.toString().toLowerCase() === userDetail["username"].toLowerCase())) ? "Login" : "Click Here To Start"}
                 </Button>
             </form>
         </section>
