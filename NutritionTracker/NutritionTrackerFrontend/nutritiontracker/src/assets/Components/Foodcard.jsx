@@ -35,7 +35,7 @@ export const Foodcard = ({data}) => {
                 .then(response => {
                     console.log('Food entry saved:', response.data);
                     setSave(true)
-                    setTimeout(()=> setSave(false), 2000)
+                    setTimeout(()=> setSave(false), 1000)
                     // const userId = response.data.id;
                 })
                 .catch(error => {

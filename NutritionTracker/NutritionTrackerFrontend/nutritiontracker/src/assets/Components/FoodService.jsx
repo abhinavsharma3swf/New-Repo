@@ -1,8 +1,14 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App.jsx";
-import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from "@mui/material";
-import {Link} from "react-router-dom";
+import {Box, Button,Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography} from "@mui/material";
+import {Link, useNavigate} from "react-router-dom";
+import {MdDelete, MdSaveAlt} from "react-icons/md";
+import {GrEdit} from "react-icons/gr";
+import {HiSaveAs} from "react-icons/hi";
+import {DailyOverviewChart} from "./DailyOverviewChart.jsx";
+import {navigate} from "jsdom/lib/jsdom/living/window/navigation.js";
+
 
 export const FoodService = () => {
     const { userId, userGoal } = useContext(UserContext);
@@ -11,6 +17,7 @@ export const FoodService = () => {
     const [isInputFocused, setIsInputFocused] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
     const isToday = new Date().toISOString().split('T')[0] === selectedDate;
+    const navigate = useNavigate();
 
     const fetchFoodEntries = () => {
 
@@ -29,14 +36,16 @@ export const FoodService = () => {
     }, [userId, selectedDate]);
 
     const deleteFoodEntry = (e) => {
-        const id = e.target.dataset.id;
+        const id = e.currentTarget.dataset.id;
         axios.delete(`http://localhost:8080/api/foodentry/${id}`)
             .then(() => fetchFoodEntries())
             .catch(error => console.error("Delete error:", error.message));
     };
 
     const editFoodQuantity = (e) => {
-        const id = +e.target.dataset.id;
+        console.log(e.target)
+        console.log(e.currentTarget)
+        const id = +e.currentTarget.dataset.id;
         const updated = editQty.find(el => el.id === id);
         if (!updated) return;
         axios.patch(`http://localhost:8080/api/foodentry/${id}`, {
@@ -63,6 +72,14 @@ export const FoodService = () => {
         return el;
     }, { calories: 0, protein: 0, carbs: 0, fat: 0 });
 
+    // const toggleOverview = () => {
+    //     setShowOverView(prev => !prev)
+    // }
+
+    const routeToOverview = () =>{
+        console.log(totals)
+        navigate('/overview', {state: {totals}})
+    }
 
     return (
         <Box sx={{ p: 3 }} style={{backgroundColor: "lightcyan", borderRadius: "30px"}}>
@@ -143,8 +160,10 @@ export const FoodService = () => {
                                     {/*Edit button*/}
                                     <Button
                                         onClick={() => setIsInputFocused(entry.id)}
-                                        disabled={!isToday || isInputFocused === entry.id}>
-                                        Edit
+                                        disabled={!isToday || isInputFocused === entry.id}
+                                        sx={{fontSize:30}}
+                                        >
+                                        <GrEdit />
                                     </Button>
                                     {/*Update Button*/}
                                     <Button data-id={entry.id}
@@ -153,18 +172,25 @@ export const FoodService = () => {
                                                 isInputFocused !== entry.id ||
                                                 updatedQty <= 0 ||
                                                 isNaN(Number(updatedQty))
-                                            }>
-                                        Update
+                                            }
+                                    sx={{fontSize:30}}>
+                                        <HiSaveAs />
                                     </Button>
                                     {/*delete Button*/}
-                                    <Button data-id={entry.id} onClick={deleteFoodEntry}>Delete</Button>
+                                    {/*<FontAwesomeIcon icon="fa-solid fa-trash" />*/}
+                                    <Button sx={{fontSize:30}} data-id={entry.id} onClick={deleteFoodEntry}><MdDelete/></Button>
                                 </TableCell>
                             </TableRow>
                         );
                     })}
                     <TableRow>
                         <TableCell><strong>Totals</strong></TableCell>
-                        <TableCell><strong>Overview</strong></TableCell>
+                        <TableCell><strong><Button onClick={routeToOverview}>
+                            OverView
+                        </Button>
+
+                                    </strong>
+                        </TableCell>
                         <TableCell/>
                         <TableCell align="center"><strong>{totals.calories.toFixed()}</strong></TableCell>
                         <TableCell align="center"><strong>{totals.protein.toFixed()}</strong></TableCell>

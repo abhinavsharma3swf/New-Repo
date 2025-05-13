@@ -8,6 +8,7 @@ import {createContext, useState} from "react";
 import {FoodService} from "./assets/Components/FoodService.jsx";
 import {ThemeProvider} from "@mui/material/styles";
 import {theme} from "./assets/Theme.jsx";
+import {DailyOverviewChart} from "./assets/Components/DailyOverviewChart.jsx";
 
 export const UserContext = createContext();
 function App() {
@@ -29,6 +30,7 @@ function App() {
                     <Route path="*" element={<Notfound/>}/>
                     <Route path="/search" element={<Search/>}/>
                     <Route path="/foodservice" element={<FoodService/>}/>
+                    <Route path="/overview" element={<DailyOverviewChart/>}/>
                 </Routes>
                     </UserContext.Provider>
             </BrowserRouter>
