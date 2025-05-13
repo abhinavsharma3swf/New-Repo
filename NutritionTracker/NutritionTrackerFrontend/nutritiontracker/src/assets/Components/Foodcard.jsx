@@ -1,4 +1,4 @@
-import {Card, CardContent, CardMedia, Checkbox, FormControlLabel, Radio, RadioGroup, Typography} from "@mui/material";
+import {Card, CardContent, CardMedia, FormControlLabel, Radio, RadioGroup, TextField, Typography} from "@mui/material";
 import {useContext, useState} from "react";
 import axios from "axios";
 import {UserContext} from "../../App.jsx";
@@ -9,16 +9,11 @@ export const Foodcard = ({data}) => {
     const {userId, setUserId} = useContext(UserContext)
     const [selectedColor, setSelectedColor] = useState('Green')
 
-    console.log(userId)
-
     let {nf_calories, nf_protein, nf_total_carbohydrate, nf_total_fat, food_name, photo} = data;
 
     const [save, setSave] = useState(false);
 
-
     const image = photo?.highres || photo?.thumb || "https://via.placeholder.com/300"; // fallback if image missing
-
-
 
         const handleSubmit = (event) => {
             event.preventDefault();
@@ -40,6 +35,7 @@ export const Foodcard = ({data}) => {
                 .then(response => {
                     console.log('Food entry saved:', response.data);
                     setSave(true)
+                    setTimeout(()=> setSave(false), 2000)
                     // const userId = response.data.id;
                 })
                 .catch(error => {
@@ -50,10 +46,14 @@ export const Foodcard = ({data}) => {
 
     return (
 
-        <div>
+        <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '65vh'}}>
             <form onSubmit={handleSubmit}>
-        <Card sx={{ maxWidth: 300, marginTop: 2, marginLeft: 60}}>
-            <CardMedia
+        <Card sx={{ maxWidth: 300, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingBottom: 2 }}>
+        <CardMedia
                 component="img"
                 image={image}
                 alt={food_name}
@@ -91,11 +91,16 @@ export const Foodcard = ({data}) => {
                     ? 'gold'
                     : 'red'}}>Enter the quantity</label>
             </div>
-            <input
-                type="number" min="1"
-                value={quantity}
-                onChange={(event) => setQuantity(event.target.value)}>
-            </input>
+                <TextField
+                    label="Quantity"
+                    type="number"
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
+                    inputProps={{ min: 1 }}
+                    size="small"
+                    sx={{ mt: 1 }}
+                />
+
                 <div>
                 <button className='foodbtn'> Click to Log</button>
                     {save && (
@@ -103,9 +108,7 @@ export const Foodcard = ({data}) => {
                             Food Saved Successfully!
                         </Typography>
                     )}
-
                 </div>
-
             </form>
         </div>
     );

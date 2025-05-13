@@ -2,11 +2,14 @@ import {useState} from "react";
 import axios from "axios";
 import {Foodcard} from "./Foodcard.jsx";
 import {Link} from "react-router-dom";
+import {Button} from "@mui/material";
 
 function Search() {
     const [searchItem, setSearchItem] = useState("")
     const [selectedFood, setSelectedFood] = useState([])
     const [loading, setLoading] = useState(false)
+    const [carousel, setCarousel] = useState(0)
+    const [search1, setSearch1] = useState(false)
 
     const id = import.meta.env.VITE_API_ID;
     const key = import.meta.env.VITE_API_KEY;
@@ -17,6 +20,7 @@ const handleSearch = () => {
             return;
 
         setLoading(true)
+        setSearch1(true)
 
         const options = {
             'method': 'POST',
@@ -46,12 +50,36 @@ const handleSearch = () => {
     }
 
     const search = (event) => {
-        // const setItem = {[event.target.name]: event.target.value};
-        // console.log(setItem);
-        //     setSearchItem(setItem);
         setSearchItem(event.target.value);
-        // console.log(searchItem);
     }
+
+    const handlePrev = () => {
+    if(carousel > 0)
+        setCarousel(carousel -1);
+    }
+
+    const handleNext = () => {
+    if(carousel < selectedFood.length -1){
+        setCarousel(carousel +1)
+    }
+    }
+
+
+    let content;
+    if (loading) {
+        content = <p>Loading food data...</p>;
+    } else if (selectedFood.length > 0) {
+        content = <Foodcard data={selectedFood[carousel]} />;
+    } else if (searchItem !== "" && search1 === true) {
+        content = (
+            <p style={{ marginTop: '20px', color: 'gray' }}>
+                No results found. Please try a different food name.
+            </p>
+        );
+    } else {
+        content = null;
+    }
+
 
     return(
         <div className="search-page">
@@ -76,8 +104,21 @@ const handleSearch = () => {
                 <Link to={{ textDecoration: 'none', color: 'Green' }} className="name" onClick={handleSearch}>
                     Search
                 </Link>
-                {loading ? ( <p> Loading food data</p>) : (selectedFood && selectedFood.map((food, index) => (
-                    <Foodcard key={index} data={food}/>)))}
+                {content}
+
+                {/*{loading ? ( <p> Loading food data...</p>) : selectedFood.length > 0 ? (*/}
+                {/*    <Foodcard data={selectedFood[carousel]}/>*/}
+                {/*) : searchItem.trim() !== "" ? (*/}
+                {/*    <p style={{ marginTop: '20px', color: 'gray' }}>No results found. Please try a different food name.</p>*/}
+                {/*    ):null}*/}
+                <div style={{ marginTop: '10px' }}>
+                    <Button onClick={handlePrev} disabled={carousel === 0} style={{ marginRight: '8px' }}>
+                        ⬅️ Prev
+                    </Button>
+                    <Button onClick={handleNext} disabled={carousel === selectedFood.length - 1}>
+                        Next ➡️
+                    </Button>
+                </div>
 
                 {/*//Checking if the search item exist//*/}
 

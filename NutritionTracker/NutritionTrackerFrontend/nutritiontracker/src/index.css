@@ -109,7 +109,7 @@ input {
 
 .foodbtn{
   display: inline-flex;
-  width: 25%;
+  width: 50%;
   font-size: 1rem;
   margin: 2px;
   padding: 10px;

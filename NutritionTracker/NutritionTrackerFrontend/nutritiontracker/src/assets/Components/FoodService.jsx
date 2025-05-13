@@ -10,8 +10,10 @@ export const FoodService = () => {
     const [editQty, setEditQty] = useState([]);
     const [isInputFocused, setIsInputFocused] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+    const isToday = new Date().toISOString().split('T')[0] === selectedDate;
 
     const fetchFoodEntries = () => {
+
         axios
             .get(`http://localhost:8080/api/foodentry/${userId}?date=${selectedDate}`)
             .then(response => {
@@ -24,7 +26,7 @@ export const FoodService = () => {
 
     useEffect(() => {
         if (userId) fetchFoodEntries();
-    }, [userId]);
+    }, [userId, selectedDate]);
 
     const deleteFoodEntry = (e) => {
         const id = e.target.dataset.id;
@@ -139,11 +141,21 @@ export const FoodService = () => {
 
                                 <TableCell align="center" sx={{padding:0}}>
                                     {/*Edit button*/}
-                                    <Button onClick={() => setIsInputFocused(entry.id)} disabled={isInputFocused === entry.id}>Edit</Button>
+                                    <Button
+                                        onClick={() => setIsInputFocused(entry.id)}
+                                        disabled={!isToday || isInputFocused === entry.id}>
+                                        Edit
+                                    </Button>
                                     {/*Update Button*/}
                                     <Button data-id={entry.id}
                                             onClick={editFoodQuantity}
-                                            disabled={updatedQty <=0 || isNaN(updatedQty || isInputFocused !== entry.id)}>Update</Button>
+                                            disabled={
+                                                isInputFocused !== entry.id ||
+                                                updatedQty <= 0 ||
+                                                isNaN(Number(updatedQty))
+                                            }>
+                                        Update
+                                    </Button>
                                     {/*delete Button*/}
                                     <Button data-id={entry.id} onClick={deleteFoodEntry}>Delete</Button>
                                 </TableCell>
