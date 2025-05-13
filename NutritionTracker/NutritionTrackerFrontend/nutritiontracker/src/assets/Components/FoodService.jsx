@@ -10,7 +10,7 @@ import {DailyOverviewChart} from "./DailyOverviewChart.jsx";
 import {navigate} from "jsdom/lib/jsdom/living/window/navigation.js";
 
 
-export const FoodService = () => {
+export const FoodService = ({onOverview}) => {
     const { userId, userGoal } = useContext(UserContext);
     const [foods, setFoods] = useState([]);
     const [editQty, setEditQty] = useState([]);
@@ -77,8 +77,8 @@ export const FoodService = () => {
     // }
 
     const routeToOverview = () =>{
-        console.log(totals)
-        navigate('/overview', {state: {totals}})
+        onOverview(totals)
+        navigate('/overview')
     }
 
     return (

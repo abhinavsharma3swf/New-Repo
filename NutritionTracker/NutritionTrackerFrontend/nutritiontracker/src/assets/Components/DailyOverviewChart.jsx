@@ -1,6 +1,7 @@
 
 import { Chart } from "react-google-charts";
-import {useLocation} from "react-router-dom";
+import {Link} from "react-router-dom";
+import {Typography} from "@mui/material";
 
 
 // export const DailyOverviewChart = ({ totals }) => {
@@ -42,25 +43,28 @@ import {useLocation} from "react-router-dom";
 //     );
 // };
 
-export function DailyOverviewChart() {
+export function DailyOverviewChart({totals}) {
+    // const location = useLocation();
+    // const {totals} = location.state;
 
-    const location = useLocation();
-    const {totals} = location.state;
-
-    // console.log(totals.fat)
+    console.log(totals.fat)
     const data = [
         ["Macros", "Grams"],
         ["Fat", totals.fat],
         ["Carbs", totals.carbs],
         ["Protein", totals.protein]
     ];
-    console.log(totals)
+
     const options = {
-        title: "My Daily Overview",
+        legend: { position: "bottom" },
         colors: ["#e57373", "#64b5f6", "#81c784"],
 
     };
     return (
+        <div style={{ padding: "2rem", textAlign: "center", justifyContent: 'center'}}>
+            <div>
+                <Typography sx={{fontSize: 30, color: 'Green'}}>Daily Overview</Typography>
+            </div>
         <Chart
             chartType="PieChart"
             data={data}
@@ -68,5 +72,9 @@ export function DailyOverviewChart() {
             width={"100%"}
             height={"400px"}
         />
+            <div className='home'>
+                <Link to={"/"} style={{ textDecoration: 'none', color: 'Green'}}> Home</Link>
+            </div>
+        </div>
     );
 }
