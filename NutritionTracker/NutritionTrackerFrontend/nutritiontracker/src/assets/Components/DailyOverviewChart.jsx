@@ -75,6 +75,9 @@ export function DailyOverviewChart({totals}) {
             <div className='home'>
                 <Link to={"/"} style={{ textDecoration: 'none', color: 'Green'}}> Home</Link>
             </div>
+            <div className='foodservice'>
+                <Link to={"/foodservice"} style={{ textDecoration: 'none', color: 'Green'}}>Back</Link>
+            </div>
         </div>
     );
 }
